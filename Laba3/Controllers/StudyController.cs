@@ -1,8 +1,7 @@
-﻿using System.Collections.Concurrent;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using Laba1;
 using Laba1.Services;
 using Laba2;
 using Microsoft.AspNetCore.Http.Features;
@@ -37,7 +36,7 @@ namespace ServerApp
                 ? _serializer.SerializeToJson(keyValue) 
                 : _serializer.SerializeToJson<KeyValue>(null));
         }
-        
+
         [Route("create")]
         [HttpPost]
         public async Task<IActionResult> Create()
@@ -46,11 +45,11 @@ namespace ServerApp
             var body = await streamReader.ReadToEndAsync();
             var keyValue = _serializer.DeserializeJsonToModel<KeyValue>(body);
 
-            if (Repo.ContainsKey(keyValue.Key))
+            if(Repo.ContainsKey(keyValue.Key))
             {
-                Response.HttpContext.Features.Get<IHttpResponseFeature>()!.ReasonPhrase = 
+                Response.HttpContext.Features.Get<IHttpResponseFeature>()!.ReasonPhrase =
                     $"Key {keyValue.Key} is already presented in store.";
-                
+
                 return StatusCode((int)HttpStatusCode.BadRequest, string.Empty);
             }
 
@@ -63,15 +62,13 @@ namespace ServerApp
         [HttpPost]
         public IActionResult Update(string key, string value)
         {
-            if (Repo.TryGetValue(key, out var keyValue))
-            {
+            if(Repo.TryGetValue(key, out var keyValue))
                 keyValue.Value = value;
-            }
             else
             {
-                Response.HttpContext.Features.Get<IHttpResponseFeature>()!.ReasonPhrase = 
+                Response.HttpContext.Features.Get<IHttpResponseFeature>()!.ReasonPhrase =
                     $"Key {key} is not presented in store.";
-                
+
                 return StatusCode((int)HttpStatusCode.BadRequest, string.Empty);
             }
 

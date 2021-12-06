@@ -9,7 +9,7 @@ namespace Laba3
         public override void ConfigureServices(IServiceCollection services)
         {
             base.ConfigureServices(services);
-            
+
             services.AddControllers();
         }
 
