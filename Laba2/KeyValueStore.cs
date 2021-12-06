@@ -1,11 +1,10 @@
-﻿namespace Laba2
+namespace Laba2
 {
     public class KeyValueStore : HttpClientBase, IKeyValueStore
     {
         private const string DefaultHostUrl = "https://tolltech.ru/study/";
 
-        public KeyValueStore(string hostUrl = DefaultHostUrl) : base(hostUrl)
-        { }
+        public KeyValueStore(string hostUrl = DefaultHostUrl) : base(hostUrl) { }
 
         public void Create(KeyValue keyValue)
         {

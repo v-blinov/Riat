@@ -39,10 +39,10 @@ namespace Laba1.Services
             using var reader = new StringReader(xmlString);
             return (T)serializer.Deserialize(reader);
         }
-        
-        
+
+
         //----------------------------------------------------------------
-        
+
         public string SerializeToJson<T>(T model) =>
             JsonSerializer.Serialize(model);
 

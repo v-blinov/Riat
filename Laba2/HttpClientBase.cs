@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Net.Http;
 using Laba1.Services;
@@ -7,9 +7,9 @@ namespace Laba2
 {
     public abstract class HttpClientBase
     {
+        private readonly HttpClient _client = new();
         private readonly string _hostUrl;
         private readonly Serializer _serializer = new();
-        private readonly HttpClient _client = new();
 
         protected HttpClientBase(string hostUrl)
         {
