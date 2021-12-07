@@ -1,4 +1,3 @@
-﻿using Laba1;
 using Laba1.Models;
 using Laba1.Services;
 using NUnit.Framework;
@@ -41,7 +40,7 @@ namespace LabaTest
             var json = _serializer.SerializeToJson(42);
             var actual = _serializer.DeserializeJsonToModel<int>(json);
 
-            Assert.AreEqual(42 ,actual);
+            Assert.AreEqual(42, actual);
         }
 
         [Test]
@@ -50,7 +49,7 @@ namespace LabaTest
             var json = _serializer.SerializeToXml("randomString");
             var actual = _serializer.DeserializeXmlToModel<string>(json);
 
-            Assert.AreEqual("randomString" ,actual);
+            Assert.AreEqual("randomString", actual);
         }
 
         [Test]
@@ -72,6 +71,5 @@ namespace LabaTest
             Assert.AreEqual(oldDisk.FormFactor, newDisk.FormFactor);
             Assert.AreEqual(oldDisk.Model, newDisk.Model);
         }
-
     }
 }

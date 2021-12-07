@@ -29,11 +29,7 @@ namespace LabaTest
             var randomKey = Guid.NewGuid().ToString();
             var randomValue = Guid.NewGuid().ToString();
 
-            var keyValue = new KeyValue
-            {
-                Key = randomKey,
-                Value = randomValue
-            };
+            var keyValue = new KeyValue { Key = randomKey, Value = randomValue };
 
             _keyValueStore.Create(keyValue);
 
@@ -47,11 +43,7 @@ namespace LabaTest
             var randomKey = Guid.NewGuid().ToString();
             var randomValue = Guid.NewGuid().ToString();
 
-            var keyValue = new KeyValue
-            {
-                Key = randomKey,
-                Value = randomValue
-            };
+            var keyValue = new KeyValue { Key = randomKey, Value = randomValue };
 
             _keyValueStore.Create(keyValue);
             var newValue = "updatedByTest" + Guid.NewGuid();
@@ -66,10 +58,10 @@ namespace LabaTest
         public void TestUpdateNonExistent()
         {
             var randomKey = Guid.NewGuid().ToString();
-            
+
             var exception = Assert.Throws<Exception>(() => _keyValueStore.Update(randomKey, Guid.NewGuid().ToString()));
             exception?.Message.Should()
-                .BeEquivalentTo($"Плохой http status code BadRequest. Сообщение Key {randomKey} is not presented in store.");
+                     .BeEquivalentTo($"Плохой http status code BadRequest. Сообщение Key {randomKey} is not presented in store.");
         }
 
         [Test]
@@ -78,11 +70,7 @@ namespace LabaTest
             var randomKey = Guid.NewGuid().ToString();
             var randomValue = Guid.NewGuid().ToString();
 
-            var keyValue = new KeyValue
-            {
-                Key = randomKey,
-                Value = randomValue
-            };
+            var keyValue = new KeyValue { Key = randomKey, Value = randomValue };
 
             _keyValueStore.Create(keyValue);
 
@@ -91,7 +79,7 @@ namespace LabaTest
 
             var exception = Assert.Throws<Exception>(() => _keyValueStore.Create(keyValue));
             exception?.Message.Should()
-                .BeEquivalentTo($"Плохой http status code BadRequest. Сообщение Key {keyValue.Key} is already presented in store.");
+                     .BeEquivalentTo($"Плохой http status code BadRequest. Сообщение Key {keyValue.Key} is already presented in store.");
         }
     }
 }
