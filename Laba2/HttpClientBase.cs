@@ -34,7 +34,7 @@ namespace Laba2
             var response = _client.PostAsync($"{_hostUrl}{methodName}?{urlParameters}", requestStringContent).Result;
             if(!response.IsSuccessStatusCode)
             {
-                throw new Exception($"Http status code {response.StatusCode}. Сообщение. {response.ReasonPhrase}");
+                throw new Exception($"Плохой http status code {response.StatusCode}. Сообщение {response.ReasonPhrase}");
             }
 
             response.Content.ReadAsStringAsync().Wait();
