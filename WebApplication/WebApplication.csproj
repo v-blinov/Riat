@@ -2,8 +2,6 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
     <ItemGroup>
@@ -11,7 +9,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Laba2\Laba2.csproj" />
+      <ProjectReference Include="..\Laba3\Laba3.csproj" />
     </ItemGroup>
 
 </Project>

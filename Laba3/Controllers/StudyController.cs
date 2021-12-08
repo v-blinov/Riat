@@ -1,13 +1,16 @@
+using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using Laba1.Models;
 using Laba1.Services;
 using Laba2;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ServerApp
+namespace Laba3.Controllers
 {
     [ApiController]
     [Route("study")]
@@ -15,10 +18,12 @@ namespace ServerApp
     {
         private static readonly ConcurrentDictionary<string, KeyValue> Repo = new();
         private readonly Serializer _serializer;
+        private readonly TempInputStore _store;
 
         public StudyController()
         {
             _serializer = new Serializer();
+            _store = new TempInputStore();
         }
 
         [Route("ping")]
@@ -27,14 +32,66 @@ namespace ServerApp
         {
             return Content("Ok");
         }
-        
+
         [Route("find")]
         [HttpGet]
         public IActionResult Find(string key)
         {
-            return Content(Repo.TryGetValue(key, out var keyValue) 
-                ? _serializer.SerializeToJson(keyValue) 
+            return Content(Repo.TryGetValue(key, out var keyValue)
+                ? _serializer.SerializeToJson(keyValue)
                 : _serializer.SerializeToJson<KeyValue>(null));
+        }
+
+        [Route("PostInputData")]
+        [HttpPost]
+        public async Task<IActionResult> PostInput()
+        {
+            try
+            {
+                using var streamReader = new StreamReader(Request.Body);
+                var body = await streamReader.ReadToEndAsync();
+
+                var inputModel = _serializer.DeserializeJsonToModel<InputModel>(body);
+                _store.SaveInput(inputModel);
+                return StatusCode(StatusCodes.Status200OK);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [Route("GetAnswer")]
+        [HttpGet]
+        public IActionResult GetAnswer()
+        {
+            try
+            {
+                var outputModel = _store.CalculateAndGet();
+                return Ok(outputModel);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [Route("Stop")]
+        [HttpGet]
+        public IActionResult Stop()
+        {
+            try
+            {
+                _store.Stop();
+                return StatusCode(StatusCodes.Status200OK);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         [Route("create")]

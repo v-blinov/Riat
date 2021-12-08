@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
 using System.Net.Http;
+using Laba1;
+using Laba1.Models;
 using Laba1.Services;
 
 namespace Laba2
@@ -9,11 +11,15 @@ namespace Laba2
     {
         private readonly HttpClient _client = new();
         private readonly string _hostUrl;
-        private readonly Serializer _serializer = new();
+        protected readonly Serializer _serializer = new();
 
+        private readonly TempInputStore _store;
+
+        
         protected HttpClientBase(string hostUrl)
         {
             _hostUrl = hostUrl;
+            _store = new TempInputStore();
         }
 
         protected T MakeGetRequest<T>(string methodName, params (string Key, string Value)[] parameters)
